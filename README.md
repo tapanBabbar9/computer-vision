@@ -18,16 +18,6 @@ To install the project, follow these steps:
 4. Install the Jupyter Notebook library if you want to run the notebooks:
 	* Jupyter: `pip install jupyter`
 
-**Usage**
-==========
-
-To use the project, follow these steps:
-
-1. Download the pre-trained model weights from [this link](https://drive.google.com/file/d/FILE_ID/view?usp=sharing) and save them in the `weights` folder.
-2. Run the Jupyter notebook `yolov10_notebook.ipynb` to test the model on sample images or videos.
-3. Use the `detect.py` script to detect objects in your own images or videos:
-	* Run `python detect.py --image_path /path/to/image.jpg`
-	* Run `python detect.py --video_path /path/to/video.mp4`
 
 **Contribution Guidelines**
 ==========================
