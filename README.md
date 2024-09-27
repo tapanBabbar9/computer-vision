@@ -12,9 +12,7 @@ The `yolov10` project is an implementation of You Only Look Once (YOLO) v10, a p
 git clone https://github.com/tapanBabbar9/yolov10.git
 ```
 2. Install the required dependencies:
-	* `pip install -r requirements.txt` (for Python 3.7+)
-	* `conda create --name yolov10 python=3.7 numpy scikit-image opencv-python`
-	* Activate the conda environment: `conda activate yolov10`
+	* `pip install cv2 ultralytics`
 
 **Usage**
 ----------
@@ -22,7 +20,7 @@ git clone https://github.com/tapanBabbar9/yolov10.git
 To use this project, follow these steps:
 
 1. Open the Jupyter Notebook in the cloned repository: `jupyter notebook`
-2. Run the `object_detect.ipynb` notebook to train a YOLOv10 model on your custom dataset.
+2. Run the `object_detect.ipynb` notebook .
 3. Adjust the hyperparameters and experiment with different configurations to achieve optimal results.
 
 **Contribution Guidelines**
