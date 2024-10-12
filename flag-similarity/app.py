@@ -1,41 +1,76 @@
-import pandas as pd
-import ast
 import streamlit as st
+import pandas as pd
+import numpy as np
+import re
+from sklearn.metrics.pairwise import cosine_similarity
+import requests
+from io import BytesIO
+from PIL import Image
 
-# Load the CSV file
-@st.cache_data
-def load_data():
-    df = pd.read_csv('flag-similarity/national_flag_embeddings.csv')
-    # Convert the string representation of embeddings to lists
-    print(df['features'])
-    df['features'] = df['features'].apply(ast.literal_eval)
-    return df
+# Function to clean up the feature strings
+def clean_feature_string(feature_str):
+    # Remove outer square brackets and split by spaces or commas
+    cleaned_str = re.sub(r'[\[\]]', '', feature_str)  # Remove brackets
+    cleaned_values = np.fromstring(cleaned_str, sep=' ')  # Parse values into numpy array
+    return cleaned_values
 
-# Load the data
-data = load_data()
+# Function to get top 5 similar countries
+def get_top_5_similar_countries(input_country, df):
+    # Extract country names
+    countries = df['Country'].values
+    
+    # Clean and convert features into arrays
+    features = np.array([clean_feature_string(f) for f in df['features'].values])
+    
+    # Find the index of the input country
+    try:
+        input_idx = list(countries).index(input_country)
+    except ValueError:
+        return f"Country '{input_country}' not found in the dataset."
+    
+    # Get the embedding of the input country
+    input_embedding = features[input_idx].reshape(1, -1)
+    
+    # Compute cosine similarity
+    similarities = cosine_similarity(input_embedding, features)[0]
+    
+    # Get top 5 similar countries
+    top_5_idx = similarities.argsort()[-6:-1][::-1]
+    
+    # Return top 5 countries with similarity scores
+    return [(countries[i], similarities[i]) for i in top_5_idx]
 
-# Set the title of the Streamlit app
-st.title("Country Flag Similarity Search")
+# Load CSV file
+csv_file = 'flag-similarity/national_flag_embeddings.csv'
+df = pd.read_csv(csv_file)
 
-# Dropdown for selecting a country
-country = st.selectbox("Select a Country", data['country'].tolist())
+# Streamlit app UI
+st.title("Country Flag Similarity Finder")
 
-# Get the embedding for the selected country
-selected_country_data = data[data['country'] == country]
-selected_embedding = selected_country_data['features'].values[0]
+# Dropdown for selecting the input country
+input_country = st.selectbox("Select a country", df['Country'].unique())
 
-# Function to compute similarity (replace this with your actual similarity function)
-def compute_similarity(selected_embedding, all_embeddings):
-    # Placeholder for your similarity calculation logic
-    # Return indices of most similar flags for example
-    # Here, we'll just return the first three for illustration
-    return range(len(all_embeddings))
+if input_country:
+    # Display the input country's flag
+    st.subheader(f"Input Country: {input_country}")
+    input_country_row = df[df['Country'] == input_country].iloc[0]
+    response = requests.get(input_country_row['Flag Image'])
+    img = Image.open(BytesIO(response.content))
+    st.image(img, width=100, caption=input_country, use_column_width=False)
 
-# Compute similarities with all embeddings
-similarity_indices = compute_similarity(selected_embedding, data['features'].tolist())
+    # Get top 5 similar countries
+    top_5_countries = get_top_5_similar_countries(input_country, df)
 
-# Display similar flags
-st.subheader("Similar Flags:")
-for index in similarity_indices:
-    similar_country = data.iloc[index]
-    st.image(similar_country['flag_image'], caption=similar_country['country'])
+    # Display top 5 similar flags
+    st.subheader("Top 5 similar countries and their flags:")
+    # Create a responsive layout
+    cols = st.columns(5)  # 5 columns for desktop
+
+    for idx, (country, score) in enumerate(top_5_countries):
+        country_row = df[df['Country'] == country].iloc[0]
+        response = requests.get(country_row['Flag Image'])
+        img = Image.open(BytesIO(response.content))
+
+        # Display flag in respective column
+        with cols[idx % 5]:  # Distribute flags in columns (wrap after 5 flags)
+            st.image(img, width=100, caption=f"{country}\nScore: {score:.4f}")
