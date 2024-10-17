@@ -11,7 +11,7 @@ st.set_page_config(
     page_title="Flag similarity search",
     page_icon="🏴‍☠️",
     menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Get Help': 'https://medium.com/@tapanbabbar',
         'Report a bug': "https://github.com/tapanBabbar9/computer-vision",
         'About': "https://medium.com/@tapanbabbar"
     }
