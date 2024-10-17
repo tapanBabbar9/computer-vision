@@ -1,7 +1,0 @@
-streamlit
-pandas
-numpy
-requests
-pillow
-faiss-cpu
-faiss
