@@ -6,6 +6,7 @@ import os
 from PIL import Image
 import faiss
 
+
 st.set_page_config(
     page_title="Flag similarity search",
     page_icon="🏴‍☠️",
@@ -16,6 +17,17 @@ st.set_page_config(
     }
 )
 IMAGE_DIR = "similarity-search/images"
+
+# Load multiple CSVs for different models
+models = {
+    'ViT': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_vit.csv'),
+    'EfficientNet': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_efficientnet.csv'),
+    'DINO-v2': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_DINO-v2.csv'),
+    'clip': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_clip.csv'),
+    'blip': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_blip.csv'),
+    'VGG16': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_vgg16.csv'),
+}
+
 # Function to clean up the feature strings
 def clean_feature_string(feature_str):
     cleaned_str = re.sub(r'[\[\]]', '', feature_str)  # Remove brackets
@@ -63,18 +75,8 @@ def load_local_image(country_name):
         print(f"Image for {country_name} not found.")
         return None
 
-# Load multiple CSVs for different models
-models = {
-    'ViT': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_vit.csv'),
-    'EfficientNet': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_efficientnet.csv'),
-    'DINO-v2': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_DINO-v2.csv'),
-    'clip': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_clip.csv'),
-    'blip': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_blip.csv'),
-    'VGG16': pd.read_csv('similarity-search/embeddings/national_flag_embeddings_vgg16.csv'),
-}
-
 # Streamlit UI
-st.title("Country Flag Similarity Finder - Model Comparison")
+st.subheader("Top 5 Similar Flags – Transformer Model Comparison")
 
 # Dropdown for selecting the model
 selected_model = "VGG16"
