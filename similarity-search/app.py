@@ -6,8 +6,16 @@ import os
 from PIL import Image
 import faiss
 
+st.set_page_config(
+    page_title="Flag similarity search",
+    page_icon="🏴‍☠️",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://github.com/tapanBabbar9/computer-vision",
+        'About': "https://medium.com/@tapanbabbar"
+    }
+)
 IMAGE_DIR = "similarity-search/images"
-
 # Function to clean up the feature strings
 def clean_feature_string(feature_str):
     cleaned_str = re.sub(r'[\[\]]', '', feature_str)  # Remove brackets
