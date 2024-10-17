@@ -63,8 +63,13 @@ if input_country:
     st.subheader(f"Input Country: {input_country}")
     input_country_row = df[df['Country'] == input_country].iloc[0]
     response = requests.get(input_country_row['Flag Image'])
-    img = Image.open(BytesIO(response.content))
-    st.image(img, width=200, caption=input_country, use_column_width=False)
+    # Use .read() to avoid the UnidentifiedImageError
+    try:
+        image_bytes = BytesIO(response.content).read()  # Read the content into bytes
+        img = Image.open(BytesIO(image_bytes))  # Open the image from the bytes
+        st.image(img, width=200, caption=input_country, use_column_width=False)
+    except Exception as e:
+        st.error(f"Error loading image: {e}")
 
 # Comparison section
 compare_cols = st.columns(len(models))
@@ -79,7 +84,13 @@ for model_name, model_df in models.items():
     for idx, (country, score) in enumerate(top_5_countries):
         country_row = df[df['Country'] == country].iloc[0]
         response = requests.get(country_row['Flag Image'])
-        img = Image.open(BytesIO(response.content))
-        with cols[idx % 5]:
-            st.image(img, width=100, caption=f"{country}: {score:.4f}")
+
+        # Use .read() to avoid the UnidentifiedImageError
+        try:
+            image_bytes = BytesIO(response.content).read()  # Read the content into bytes
+            img = Image.open(BytesIO(image_bytes))  # Open the image from the bytes
+            with cols[idx % 5]:
+                st.image(img, width=100, caption=f"{country}: {score:.4f}")
+        except Exception as e:
+            st.error(f"Error loading image for {country}: {e}")
             
