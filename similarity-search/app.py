@@ -47,12 +47,15 @@ def get_top_k_similar_countries(input_country, df, k=5):
     
     input_embedding = features[input_idx].reshape(1, -1)
 
+    # Normalize the feature vectors for cosine similarity
+    features_normalized = features / np.linalg.norm(features, axis=1, keepdims=True)
+
     # Create a FAISS index for similarity search
     dim = features.shape[1]
-    index = faiss.IndexFlatL2(dim)  # Use L2 distance (can be changed to IndexFlatIP for cosine similarity)
+    index = faiss.IndexFlatIP(dim)  
     
     # Add all features to the FAISS index
-    index.add(features)
+    index.add(features_normalized)
     
     # Search for the top K most similar countries
     distances, top_k_idx = index.search(input_embedding, k+1)  # k+1 to exclude the country itself
