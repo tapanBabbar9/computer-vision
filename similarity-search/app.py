@@ -16,6 +16,25 @@ st.set_page_config(
         'About': "https://medium.com/@tapanbabbar"
     }
 )
+# CSS to reduce image width on mobile
+st.markdown(
+    """
+    <style>
+    @media only screen and (max-width: 768px) {
+        .st-emotion-cache-j5r0tf
+        {
+        min-width: 108px!important;
+        }
+        .st-emotion-cache-ocqkz7
+        {
+        flex-wrap:nowrap;
+        overflow-x:scroll;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 IMAGE_DIR = "similarity-search/images"
 
 # Load multiple CSVs for different models
