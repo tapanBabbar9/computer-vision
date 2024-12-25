@@ -4,5 +4,4 @@ numpy
 requests
 faiss-cpu
 opencv-python
-os
 json
