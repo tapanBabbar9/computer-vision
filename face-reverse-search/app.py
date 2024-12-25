@@ -72,7 +72,7 @@ if index is not None and metadata is not None:
             if os.path.exists(img_path):
                 img = cv2.imread(img_path)
                 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                st.image(img_rgb, caption=f"Face {idx}", use_column_width=True)
+                st.image(img_rgb, caption=f"Face {idx}")
 
                 # Button to search for similar faces
                 if st.button(f"Find", key=f"btn_{idx}"):
@@ -116,12 +116,12 @@ if index is not None and metadata is not None:
 
                         # Display the cropped image in the first column
                         with cols[0]:
-                            #st.image(cropped_img_rgb, caption=f"Cropped Face (Distance: {distance:.4f})", use_column_width=True)
-                            st.image(cropped_img_rgb, use_column_width=True)
+                            #st.image(cropped_img_rgb, caption=f"Cropped Face (Distance: {distance:.4f})")
+                            st.image(cropped_img_rgb)
 
                         # Display the original image in the second column
                         with cols[1]:
-                            st.image(img_rgb, use_column_width=True)
+                            st.image(img_rgb)
                     else:
                         st.warning(f"Original image not found: {original_image_path}")
                 else:
