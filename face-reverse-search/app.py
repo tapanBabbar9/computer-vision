@@ -45,6 +45,7 @@ def search_similar_faces(index, face_embedding, metadata, top_k=100):
 # ----------------------------- STREAMLIT APPLICATION ----------------------------- #
 # Title
 st.title("🔍 Face Search Application")
+st.caption("This project showcases the use of YuNet, VGG-16, and FAISS for efficient photo recognition and reverse image search. All images used belong to 'Academy of Motion Picture Arts and Sciences' and are used for educational purposes")
 
 # Load FAISS index and metadata
 index, metadata = load_faiss_index_and_metadata()
