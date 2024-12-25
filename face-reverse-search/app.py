@@ -7,13 +7,16 @@ import os
 import json
 
 # ----------------------------- GLOBAL VARIABLES ----------------------------- #
-faiss_index_path = os.path.join("oscar", "faiss_index.bin")
-metadata_path =  os.path.join("oscar", "photo_ids.json") 
+base_path = os.path.dirname(os.path.abspath(__file__))
+faiss_index_path = os.path.join(base_path, "oscar", "faiss_index.bin")
+metadata_path = os.path.join(base_path, "oscar", "photo_ids.json")
 image_folder = "oscar/photos"
 cropped_folder = "oscar/cropped_faces"
 distance_thresh = 1
 
 # ----------------------------- HELPER FUNCTIONS ----------------------------- #
+
+
 def load_faiss_index_and_metadata():
     """Load FAISS index and metadata."""
     try:
@@ -25,6 +28,7 @@ def load_faiss_index_and_metadata():
     except Exception as e:
         st.error(f"Failed to load FAISS index or metadata: {e}")
         return None, None
+
 
 
 def search_similar_faces(index, face_embedding, metadata, top_k=100):
