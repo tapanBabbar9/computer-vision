@@ -3,4 +3,4 @@ pandas
 numpy
 requests
 faiss-cpu
-opencv-python
+opencv-python-headless
