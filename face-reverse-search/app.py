@@ -7,8 +7,8 @@ import os
 import json
 
 # ----------------------------- GLOBAL VARIABLES ----------------------------- #
-faiss_index_path = "oscar/faiss_index.bin"
-metadata_path = "oscar/photo_ids.json"
+faiss_index_path = os.path.join("oscar", "faiss_index.bin")
+metadata_path =  os.path.join("oscar", "photo_ids.json") 
 image_folder = "oscar/photos"
 cropped_folder = "oscar/cropped_faces"
 distance_thresh = 1
