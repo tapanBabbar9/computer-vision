@@ -68,7 +68,7 @@ if index is not None and metadata is not None:
     for idx, meta in enumerate(filtered_metadata):
         col_idx = idx % num_columns  # Ensure each image is assigned to the correct column
         with cols[col_idx]:
-            img_path = os.path.join(cropped_folder, meta['cropped_face'])
+            img_path = os.path.join(base_path, cropped_folder, meta['cropped_face'])
             if os.path.exists(img_path):
                 img = cv2.imread(img_path)
                 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -101,12 +101,12 @@ if index is not None and metadata is not None:
                     original_image_path = matched_metadata['original_image']
                     
                     # Load the cropped face image
-                    cropped_img_path = os.path.join(cropped_folder, img_path)
+                    cropped_img_path = os.path.join(base_path, cropped_folder, img_path)
                     cropped_img = cv2.imread(cropped_img_path)
                     cropped_img_rgb = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2RGB)
 
                     # Now load the full image from the image folder
-                    img_path_full = os.path.join(image_folder, original_image_path)
+                    img_path_full = os.path.join(base_path, image_folder, original_image_path)
                     if os.path.exists(img_path_full):
                         img = cv2.imread(img_path_full)
                         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
