@@ -2,8 +2,7 @@ streamlit
 pandas
 numpy
 requests
-pillow
 faiss-cpu
-cv2
+opencv-python
 os
 json
